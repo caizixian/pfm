@@ -38,6 +38,7 @@ fn main() {
         .allowlist_type("^(pfm|PFM).*")
         .allowlist_function("^(pfm|PFM).*")
         .allowlist_var("^(pfm|PFM).*")
+        .rustified_enum("^pfm_.*_t$")
         .default_macro_constant_type(bindgen::MacroTypeVariation::Signed)
         .header((&header).to_str().unwrap())
         .clang_arg(format!("-I{}", (&include_dir).to_str().unwrap()))
