@@ -1,10 +1,12 @@
 [package]
 name = "pfm-sys"
-version = "0.1.0"
-authors = ["Zixian Cai"]
+version = "0.0.1"
+authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license-file = "LICENSE"
+description = "Binding of libpfm4"
+repository = "https://github.com/caizixian/pfm-sys/"
+readme = "README.md"
 
 [dependencies]
 
