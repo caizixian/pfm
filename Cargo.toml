@@ -1,9 +1,9 @@
 [package]
 name = "pfm-sys"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2018"
-license-file = "LICENSE"
+license = "MIT"
 description = "Binding of libpfm4"
 repository = "https://github.com/caizixian/pfm-sys/"
 readme = "README.md"

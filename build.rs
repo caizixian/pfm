@@ -4,30 +4,18 @@ use std::env;
 use std::path::PathBuf;
 use std::process::Command;
 
-const LIBPFM_VERSION: &'static str = "4.11.0";
-
 fn main() {
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
-    let libpfm_filename = format!("libpfm-{}.tar.gz", LIBPFM_VERSION);
-    let download_url = format!(
-        "https://sourceforge.net/projects/perfmon2/files/libpfm4/{}/download",
-        libpfm_filename
-    );
-    Command::new("wget")
-        .current_dir(&out_path)
-        .arg("-O")
-        .arg(&libpfm_filename)
-        .arg(download_url)
+    let here_file = PathBuf::from(file!()).canonicalize().unwrap();
+    let here = here_file.parent().unwrap();
+    Command::new("cp")
+        .current_dir(&here)
+        .arg("-a")
+        .arg((&here).join("libpfm4").to_str().unwrap())
+        .arg((&out_path).to_str().unwrap())
         .status()
         .unwrap();
-
-    Command::new("tar")
-        .current_dir(&out_path)
-        .arg("xf")
-        .arg(&libpfm_filename)
-        .status()
-        .unwrap();
-    let libpfm_dir = out_path.join(format!("libpfm-{}", LIBPFM_VERSION));
+    let libpfm_dir = out_path.join("libpfm4");
     Command::new("make")
         .env("CFLAGS", "-fPIC")
         .current_dir(&libpfm_dir)
