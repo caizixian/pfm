@@ -27,9 +27,9 @@ fn main() {
         &libpfm_dir.join("lib").to_str().unwrap()
     );
     println!("cargo:rustc-link-lib=static=pfm");
+    let include_dir = &libpfm_dir.join("include");
 
-    let header = &libpfm_dir
-        .join("include")
+    let header = &include_dir
         .join("perfmon")
         .join("pfmlib_perf_event.h");
     println!("cargo:rerun-if-changed={}", (&header).to_str().unwrap());
@@ -40,6 +40,7 @@ fn main() {
         .allowlist_var("^(pfm|PFM).*")
         .default_macro_constant_type(bindgen::MacroTypeVariation::Signed)
         .header((&header).to_str().unwrap())
+        .clang_arg(format!("-I{}", (&include_dir).to_str().unwrap()))
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
