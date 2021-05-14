@@ -39,6 +39,7 @@ fn main() {
         .allowlist_function("^(pfm|PFM|perf|PERF).*")
         .allowlist_var("^(pfm|PFM|perf|PERF).*")
         .rustified_enum("^pfm_.*_t$")
+        .rustified_enum("^perf_.*$")
         .default_macro_constant_type(bindgen::MacroTypeVariation::Signed)
         .header((&header).to_str().unwrap())
         .clang_arg(format!("-I{}", (&include_dir).to_str().unwrap()))
