@@ -1,6 +1,6 @@
 [package]
 name = "pfm-sys"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2018"
 license = "MIT"

@@ -35,9 +35,9 @@ fn main() {
     println!("cargo:rerun-if-changed={}", (&header).to_str().unwrap());
 
     let bindings = bindgen::Builder::default()
-        .allowlist_type("^(pfm|PFM).*")
-        .allowlist_function("^(pfm|PFM).*")
-        .allowlist_var("^(pfm|PFM).*")
+        .allowlist_type("^(pfm|PFM|perf|PERF).*")
+        .allowlist_function("^(pfm|PFM|perf|PERF).*")
+        .allowlist_var("^(pfm|PFM|perf|PERF).*")
         .rustified_enum("^pfm_.*_t$")
         .default_macro_constant_type(bindgen::MacroTypeVariation::Signed)
         .header((&header).to_str().unwrap())
