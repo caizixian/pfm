@@ -1,5 +1,6 @@
-use pfm_sys::{pfm_initialize, PFM_SUCCESS};
 use super::util::pfm_err_description;
+use libc::{prctl, PR_TASK_PERF_EVENTS_DISABLE, PR_TASK_PERF_EVENTS_ENABLE};
+use pfm_sys::{pfm_initialize, PFM_SUCCESS};
 
 pub struct Perfmon {
     initialized: bool,
@@ -20,6 +21,20 @@ impl Perfmon {
             Ok(())
         } else {
             Err(pfm_err_description(errno))
+        }
+    }
+
+    /// Enable all counters on the calling process
+    pub fn enable(&self) {
+        unsafe {
+            prctl(PR_TASK_PERF_EVENTS_ENABLE);
+        }
+    }
+
+    /// Disable all counters on the calling process
+    pub fn disable(&self) {
+        unsafe {
+            prctl(PR_TASK_PERF_EVENTS_DISABLE);
         }
     }
 }

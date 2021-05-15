@@ -1,4 +1,4 @@
-use pfm_sys::{pfm_strerror, pfm_err_t};
+use pfm_sys::{pfm_err_t, pfm_strerror};
 use std::ffi::CStr;
 
 pub(super) fn pfm_err_description(errno: pfm_err_t) -> String {
