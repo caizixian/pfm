@@ -1,6 +1,6 @@
 [package]
 name = "pfm-sys"
-version = "0.0.8"
+version = "0.0.9"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2018"
 license = "MIT"
@@ -8,10 +8,6 @@ description = "High-level wrapper of libpfm44"
 repository = "https://github.com/caizixian/pfm"
 readme = "README.md"
 documentation = "https://docs.rs/pfm"
-
-[dependencies]
-pfm-sys = "0.0.7"
-libc = "0.2.94"
 
 [build-dependencies]
 bindgen = "0.58.1"
