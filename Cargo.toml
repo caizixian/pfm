@@ -1,0 +1,14 @@
+[package]
+name = "pfm"
+version = "0.0.1"
+authors = ["Zixian Cai <u5937495@anu.edu.au>"]
+edition = "2018"
+license = "MIT"
+description = "Binding of libpfm4"
+repository = "https://github.com/caizixian/pfm/pfm-sys"
+readme = "README.md"
+documentation = "https://docs.rs/pfm-sys"
+
+[dependencies]
+pfm-sys = "0.0.7"
+libc = "0.2.94"
