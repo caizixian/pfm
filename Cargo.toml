@@ -10,6 +10,6 @@ readme = "README.md"
 documentation = "https://docs.rs/pfm"
 
 [dependencies]
-pfm-sys = "0.0.8"
-perf-event-open-sys = {path = "./perf-event-open-sys"}
+pfm-sys = {path = "./pfm-sys", version = "0.0.8"}
+perf-event-open-sys = "1.0.1"
 libc = "0.2.94"

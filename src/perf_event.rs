@@ -42,7 +42,9 @@ impl PerfEvent {
     }
 
     pub fn open(&mut self) -> Result<(), std::io::Error> {
-        let result = unsafe { perf_event_open(&mut std::mem::transmute(self.pe), 0, -1, -1, 0) };
+        let result = unsafe {
+            perf_event_open(std::mem::transmute(&mut self.pe), 0, -1, -1, 0)
+        };
         if result == -1 {
             Err(std::io::Error::last_os_error())
         } else {

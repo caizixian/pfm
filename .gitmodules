@@ -1,6 +1,3 @@
 [submodule "libpfm4"]
 	path = pfm-sys/libpfm4
 	url = https://git.code.sf.net/p/perfmon2/libpfm4
-[submodule "perf-event-open-sys"]
-	path = perf-event-open-sys
-	url = https://github.com/caizixian/perf-event-open-sys.git
