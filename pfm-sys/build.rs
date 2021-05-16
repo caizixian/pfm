@@ -6,9 +6,8 @@ use std::process::Command;
 
 fn main() {
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
-    let here_file = PathBuf::from(env::var("PWD").unwrap()).join(file!());
-    let here = here_file.parent().unwrap();
-    println!("{:?}", here);
+    let here = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
+
     Command::new("cp")
         .current_dir(&here)
         .arg("-a")
