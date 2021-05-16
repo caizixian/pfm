@@ -1,15 +1,15 @@
 [package]
 name = "pfm"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2018"
 license = "MIT"
-description = "Binding of libpfm4"
+description = "High-level wrapper of libpfm4"
 repository = "https://github.com/caizixian/pfm"
 readme = "README.md"
 documentation = "https://docs.rs/pfm"
 
 [dependencies]
-pfm-sys = {path = "./pfm-sys", version = "0.0.9"}
+pfm-sys = {path = "./pfm-sys", version = "0.0.10"}
 perf-event-open-sys = "1.0.1"
 libc = "0.2.94"
