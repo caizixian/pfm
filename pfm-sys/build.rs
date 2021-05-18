@@ -6,21 +6,30 @@ use std::process::Command;
 
 fn main() {
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+    println!("OUT_DIR: {:?}", out_path);
     let here = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
+    println!("CARGO_MANIFEST_DIR: {:?}", here);
 
-    Command::new("cp")
+    let status = Command::new("cp")
         .current_dir(&here)
         .arg("-a")
         .arg((&here).join("libpfm4").to_str().unwrap())
         .arg((&out_path).to_str().unwrap())
         .status()
         .unwrap();
+    if !status.success() {
+        panic!("cp exited with status {}", status);
+    }
+    
     let libpfm_dir = out_path.join("libpfm4");
-    Command::new("make")
+    let status = Command::new("make")
         .env("CFLAGS", "-fPIC")
         .current_dir(&libpfm_dir)
         .status()
         .unwrap();
+    if !status.success() {
+        panic!("make exited with status {}", status);
+    }
 
     println!(
         "cargo:rustc-link-search=native={}",
@@ -29,9 +38,7 @@ fn main() {
     println!("cargo:rustc-link-lib=static=pfm");
     let include_dir = &libpfm_dir.join("include");
 
-    let header = &include_dir
-        .join("perfmon")
-        .join("pfmlib_perf_event.h");
+    let header = &include_dir.join("perfmon").join("pfmlib_perf_event.h");
     println!("cargo:rerun-if-changed={}", (&header).to_str().unwrap());
 
     let bindings = bindgen::Builder::default()
