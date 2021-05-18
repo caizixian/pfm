@@ -7,11 +7,13 @@ use pfm_sys::{
 use std::ffi::CString;
 use std::mem::MaybeUninit;
 
+#[derive(Copy, Clone)]
 pub struct PerfEvent {
     pe: perf_event_attr,
     fd: Option<c_int>,
 }
 
+#[derive(Copy, Clone)]
 pub struct PerfEventValue {
     pub value: i64,
     pub time_enabled: i64,
