@@ -22,8 +22,24 @@ fn main() {
     }
     
     let libpfm_dir = out_path.join("libpfm4");
+    // When invoking cargo build within a currently running GNU make
+    // Cargo uses the jobserver protocol
+    // https://doc.rust-lang.org/cargo/reference/build-scripts.html#jobserver
+    // And any child make will receive something like "--jobserver-fds=3,4" in
+    // the MAKEFLAGS environment variable
+    // However, the jobserver protocol doesn't specify whether the pipe is
+    // non-blocking or not.
+    // If the pipe is set to be non-blocking,
+    // old versions (before 4.3)
+    // https://bob-build-tool.readthedocs.io/en/latest/manual/configuration.html?highlight=jobserver#jobserver
+    // of GNU make will give
+    // the following error
+    // *** read jobs pipe: Resource temporarily unavailable.  Stop.
+    // Also see
+    // https://lists.gnu.org/archive/html/bug-make/2019-08/msg00018.html
     let status = Command::new("make")
         .env("CFLAGS", "-fPIC")
+        .env_remove("MAKEFLAGS")
         .current_dir(&libpfm_dir)
         .status()
         .unwrap();
