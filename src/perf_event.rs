@@ -1,5 +1,5 @@
 use super::util::pfm_err_description;
-use libc::{c_int, c_longlong, c_void, read};
+use libc::{c_int, c_longlong, c_void, read, pid_t};
 use perf_event_open_sys::{ioctls, perf_event_open};
 use pfm_sys::{
     perf_event_attr, perf_event_read_format, pfm_get_perf_event_encoding, PFM_PLM3, PFM_SUCCESS,
@@ -43,9 +43,9 @@ impl PerfEvent {
         Ok(Self { pe, fd: None })
     }
 
-    pub fn open(&mut self) -> Result<(), std::io::Error> {
+    pub fn open(&mut self, pid: pid_t, cpu: c_int) -> Result<(), std::io::Error> {
         let result = unsafe {
-            perf_event_open(std::mem::transmute(&mut self.pe), 0, -1, -1, 0)
+            perf_event_open(std::mem::transmute(&mut self.pe), pid, cpu, -1, 0)
         };
         if result == -1 {
             Err(std::io::Error::last_os_error())
