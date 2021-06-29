@@ -13,7 +13,7 @@ pub struct PerfEvent {
     fd: Option<c_int>,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct PerfEventValue {
     pub value: i64,
     pub time_enabled: i64,
@@ -21,7 +21,7 @@ pub struct PerfEventValue {
 }
 
 impl PerfEvent {
-    pub fn new(name: &str) -> Result<Self, String> {
+    pub fn new(name: &str, inherit: bool) -> Result<Self, String> {
         let cstring = CString::new(name).expect("Event name should be a valid C strin");
         let mut pe: perf_event_attr = unsafe { MaybeUninit::zeroed().assume_init() };
         let errno = unsafe {
@@ -39,6 +39,9 @@ impl PerfEvent {
         pe.read_format = (perf_event_read_format::PERF_FORMAT_TOTAL_TIME_ENABLED as u64)
             | (perf_event_read_format::PERF_FORMAT_TOTAL_TIME_RUNNING as u64);
         pe.set_disabled(1);
+        if inherit {
+            pe.set_inherit(1);
+        }
 
         Ok(Self { pe, fd: None })
     }
@@ -106,8 +109,8 @@ mod tests {
         use crate::Perfmon;
         let mut perfmon: Perfmon = Default::default();
         perfmon.initialize().unwrap();
-        let mut event = PerfEvent::new("RETIRED_INSTRUCTIONS").unwrap();
-        event.open().unwrap();
+        let mut event = PerfEvent::new("RETIRED_INSTRUCTIONS", false).unwrap();
+        event.open(0, -1).unwrap();
         event.enable();
         println!("Measuring instruction count for this println");
         let counts = event.read().unwrap();
