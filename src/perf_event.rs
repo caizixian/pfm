@@ -58,46 +58,67 @@ impl PerfEvent {
         }
     }
 
-    pub fn enable(&mut self) {
+    pub fn enable(&mut self) -> Result<(), std::io::Error> {
         if let Some(fd) = self.fd {
-            unsafe {
-                ioctls::ENABLE(fd, 0);
+            let result = unsafe {ioctls::ENABLE(fd, 0)};
+            if result == -1 {
+                Err(std::io::Error::last_os_error())
+            } else {
+                Ok(())
             }
+        } else {
+            panic!("Enabing a perf event that hasn't been opened");
         }
     }
 
-    pub fn disable(&mut self) {
+    pub fn disable(&mut self) -> Result<(), std::io::Error> {
         if let Some(fd) = self.fd {
-            unsafe {
-                ioctls::DISABLE(fd, 0);
+            let result = unsafe {ioctls::DISABLE(fd, 0)};
+            if result == -1 {
+                Err(std::io::Error::last_os_error())
+            } else {
+                Ok(())
             }
+        } else {
+            panic!("Disabling a perf event that hasn't been opened");
         }
     }
 
-    pub fn reset(&mut self) {
+    pub fn reset(&mut self) -> Result<(), std::io::Error> {
         if let Some(fd) = self.fd {
-            unsafe {
-                ioctls::RESET(fd, 0);
+            let result = unsafe {ioctls::RESET(fd, 0)};
+            if result == -1 {
+                Err(std::io::Error::last_os_error())
+            } else {
+                Ok(())
             }
+        } else {
+            panic!("Resetting a perf event that hasn't been opened");
         }
     }
 
-    pub fn read(&self) -> Option<PerfEventValue> {
+    pub fn read(&self) -> Result<PerfEventValue, std::io::Error> {
         let mut counts: [c_longlong; 3] = [0; 3];
-        self.fd.map(|fd| {
-            unsafe {
+        if let Some(fd) = self.fd {
+            let result = unsafe {
                 read(
                     fd,
                     (&mut counts) as *mut _ as *mut c_void,
                     std::mem::size_of::<[c_longlong; 3]>(),
-                );
+                )
+            };
+            if result == -1 {
+                Err(std::io::Error::last_os_error())
+            } else {
+                Ok(PerfEventValue {
+                    value: counts[0],
+                    time_enabled: counts[1],
+                    time_running: counts[2],
+                })
             }
-            PerfEventValue {
-                value: counts[0],
-                time_enabled: counts[1],
-                time_running: counts[2],
-            }
-        })
+        } else {
+            panic!("Reading a perf event that hasn't been opened");
+        }
     }
 }
 
@@ -111,13 +132,14 @@ mod tests {
         perfmon.initialize().unwrap();
         let mut event = PerfEvent::new("RETIRED_INSTRUCTIONS", false).unwrap();
         event.open(0, -1).unwrap();
-        event.enable();
+        event.reset().unwrap();
+        event.enable().unwrap();
         println!("Measuring instruction count for this println");
         let counts = event.read().unwrap();
         println!(
             "Raw: {}, total time enabled: {}, total time running {}",
             counts.value, counts.time_enabled, counts.time_running
         );
-        event.disable();
+        event.disable().unwrap();
     }
 }
