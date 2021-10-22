@@ -1,6 +1,6 @@
 [package]
 name = "pfm"
-version = "0.0.9"
+version = "0.1.0-beta.1"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2018"
 license = "MIT"
