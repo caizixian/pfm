@@ -46,6 +46,10 @@ impl PerfEvent {
         Ok(Self { pe, fd: None })
     }
 
+    pub fn set_exclude_kernel(&mut self, val: u64) {
+        self.pe.set_exclude_kernel(val)
+    }
+
     pub fn open(&mut self, pid: pid_t, cpu: c_int) -> Result<(), std::io::Error> {
         let result = unsafe {
             perf_event_open(std::mem::transmute(&mut self.pe), pid, cpu, -1, 0)
