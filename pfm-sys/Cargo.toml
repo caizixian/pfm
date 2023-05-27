@@ -2,7 +2,7 @@
 name = "pfm-sys"
 version = "0.0.15+4.13.0-533633ad"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
-edition = "2018"
+edition = "2021"
 license = "MIT"
 description = "Binding of libpfm4"
 repository = "https://github.com/caizixian/pfm/pfm-sys"
