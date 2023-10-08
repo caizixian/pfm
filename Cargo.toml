@@ -1,6 +1,6 @@
 [package]
 name = "pfm"
-version = "0.1.0-beta.3"
+version = "0.1.0"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2021"
 license = "MIT"
@@ -10,6 +10,6 @@ readme = "README.md"
 documentation = "https://docs.rs/pfm"
 
 [dependencies]
-pfm-sys = {path = "./pfm-sys", version = "0.0.15-libpfm4.533633ad"}
-perf-event-open-sys = "1.0.1"
+pfm-sys = {path = "./pfm-sys", version = "0.0.16-libpfm4.13.0"}
+perf-event-open-sys = "4.0"
 libc = "0.2"

@@ -1,6 +1,6 @@
 [package]
 name = "pfm-sys"
-version = "0.0.15-libpfm4.533633ad"
+version = "0.0.16-libpfm4.13.0"
 authors = ["Zixian Cai <u5937495@anu.edu.au>"]
 edition = "2021"
 license = "MIT"
@@ -10,4 +10,4 @@ readme = "README.md"
 documentation = "https://docs.rs/pfm-sys"
 
 [build-dependencies]
-bindgen = "0.63"
+bindgen = "0.68.1"
