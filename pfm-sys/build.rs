@@ -20,7 +20,7 @@ fn main() {
     if !status.success() {
         panic!("cp exited with status {}", status);
     }
-    
+
     let libpfm_dir = out_path.join("libpfm4");
     // When invoking cargo build within a currently running GNU make
     // Cargo uses the jobserver protocol
@@ -68,7 +68,7 @@ fn main() {
         .clang_arg(format!("-I{}", (&include_dir).to_str().unwrap()))
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         // Finish the builder and generate the bindings.
         .generate()
         // Unwrap the Result and panic on failure.

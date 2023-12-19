@@ -2,14 +2,9 @@ use super::util::pfm_err_description;
 use libc::{prctl, PR_TASK_PERF_EVENTS_DISABLE, PR_TASK_PERF_EVENTS_ENABLE};
 use pfm_sys::{pfm_initialize, PFM_SUCCESS};
 
+#[derive(Default)]
 pub struct Perfmon {
     initialized: bool,
-}
-
-impl Default for Perfmon {
-    fn default() -> Self {
-        Perfmon { initialized: false }
-    }
 }
 
 impl Perfmon {
